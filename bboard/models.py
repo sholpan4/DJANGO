@@ -36,6 +36,7 @@ class MinMaxValueValidator:
 
 class Rubric(models.Model):
     name = models.CharField(max_length=20, db_index=True, verbose_name="Название", unique=True)
+    # slug = models.SlugField(max_length=160, unique=True, verbose_name="Слаг", default='')
 
     def __str__(self):
         return self.name #изменение rubric object 1 на недвижимость
@@ -107,8 +108,8 @@ class Bb(models.Model):
                                 # validators=[validators.MinValueValidator(0),
                                 #             validators.MaxValueValidator(100500),
                                 #             validators.DecimalValidator(8, 2)]
-                                validators=[validate_even,
-                                            MinMaxValueValidator(25, 45)]
+                                # validators=[validate_even,
+                                #             MinMaxValueValidator(25, 45)]
                                 )
     is_active = models.BooleanField(default=is_active_default)
     published = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликовано")

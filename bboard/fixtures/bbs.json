@@ -1,0 +1,41 @@
+[
+  {
+    "model": "bboard.bb",
+    "pk": 1,
+    "fields": {
+      "rubric": 1,
+      "title": "Плотина",
+      "content": "Бобёр её строил",
+      "price": "100500.00",
+      "is_active": true,
+      "published": "2023-11-23T13:45:33.118Z",
+      "updated": "2023-11-28T13:20:34.903Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 2,
+    "fields": {
+      "rubric": 2,
+      "title": "1234",
+      "content": "ddddd",
+      "price": "123.00",
+      "is_active": true,
+      "published": "2023-11-28T13:58:01.544Z",
+      "updated": "2023-11-28T13:58:01.544Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 3,
+    "fields": {
+      "rubric": 1,
+      "title": "132456",
+      "content": "qweasdfd",
+      "price": "12.00",
+      "is_active": true,
+      "published": "2023-11-28T14:39:37.026Z",
+      "updated": "2023-11-28T14:39:37.026Z"
+    }
+  }
+]
