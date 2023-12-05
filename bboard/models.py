@@ -65,11 +65,11 @@ class Bb(models.Model):
     #
     # kind = models.CharField(max_length=1, choices=Kinds.choices, default=Kinds.SELL)
 
-    # KINDS = (
-    #     ('b', 'Куплю'),
-    #     ('s', 'Продам'),
-    #     ('c', 'Обменяю'),
-    # )
+    KINDS = (
+        ('b', 'Куплю'),
+        ('s', 'Продам'),
+        ('c', 'Обменяю'),
+    )
 
     # KINDS = (
     #     ('Купля-продажа', (
@@ -87,7 +87,7 @@ class Bb(models.Model):
     #     ('c', 'Обменяю'),
     # )
     #
-    # # kind = models.CharField(max_length=1, choices=KINDS, default='s')
+    kind = models.CharField(max_length=1, choices=KINDS, default='s', verbose_name='Тип объявления')
     # kind = models.CharField(max_length=1, choices=KINDS, blank=True)
     rubric = models.ForeignKey("Rubric", null=True, on_delete=models.PROTECT, verbose_name="Рубрика")  #внешний ключ аргумент должен быть выше если без кавычек
     title = models.CharField(
