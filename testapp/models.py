@@ -13,8 +13,13 @@ class AdvUser(models.Model):
 class Spare(models.Model):
     name = models.CharField(max_length=30)
 
+    def __str__(self):
+        return f'{self.name}'
+
 
 class Machine(models.Model):
     name = models.CharField(max_length=30)
     spares = models.ManyToManyField(Spare)
 
+    def __str__(self):
+        return f'{self.name}'

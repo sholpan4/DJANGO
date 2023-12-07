@@ -146,3 +146,4 @@ class Bb(models.Model):
         verbose_name_plural = 'Объявления'
         verbose_name = 'Объявление'
         ordering = ['-published', 'title']
+        # order_with_respect_to = 'rubric' #возвращать отсортированный список с рубрикой
