@@ -11,7 +11,8 @@ from django.views.generic.edit import CreateView
 
 def index(request):
     bbs = Bb.objects.order_by('-published')
-    rubrics = Rubric.objects.all()
+    # rubrics = Rubric.objects.all()
+    rubrics = Rubric.objects.filter(bb__isnull=False).distinct()
     context = {'bbs': bbs, 'rubrics': rubrics}
     return render(request, 'index.html', context)
 
@@ -31,7 +32,8 @@ class BbCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['rubrics'] = Rubric.objects.all()
+        # context['rubrics'] = Rubric.objects.all()
+        context['rubrics'] = Rubric.objects.filter(bb__isnull=False).distinct()
         return context
 
 
