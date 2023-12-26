@@ -6,7 +6,7 @@
 
 <h2>Добавление объявления</h2>
 
-
+{#<form action="{% url 'bboard:add_save' %}" method="post">#}
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
