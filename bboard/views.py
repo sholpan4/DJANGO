@@ -102,9 +102,6 @@ class BbCreateView(CreateView):
 
 
 
-
-
-
 # def index_old(request):
 #     template = loader.get_template('index.html')
 #     bbs = Bb.objects.order_by('-published')
