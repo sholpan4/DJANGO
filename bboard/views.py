@@ -8,7 +8,7 @@ from django.template import loader
 from django.template.loader import get_template, render_to_string
 from django.views.generic.edit import CreateView
 
-from .forms import BbForm
+from .forms import BbForm, RubricForm
 from .models import Bb, Rubric  #находимся в bboard
 
 
@@ -64,6 +64,7 @@ class BbByRubricView(TemplateView):
         context['bbs'] = Bb.objects.filter(rubric=context['rubric_id'])
         context['rubrics'] = Rubric.objects.all()
         context['current_rubric'] = Rubric.objects.get(pk=context['rubric_id'])
+        return context
 
 
 # def add_and_save(request):
@@ -107,7 +108,15 @@ class BbCreateView(CreateView):
         return context
 
 
+class RubricCreateView(CreateView):
+    template_name = 'create_rubric.html'
+    form_class = RubricForm
+    success_url = reverse_lazy('bboard:index')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rubrics'] = Rubric.objects.all()
+        return context
 
 
 # def detail(request, bb_id):
