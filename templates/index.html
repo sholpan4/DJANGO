@@ -5,7 +5,10 @@
 {% for bb in bbs %}
 <div>
 <!--    <h2>{{ bb.title }}</h2>-->
-    <h2>{{ bb.title_and_price }}</h2>
+    <h2>
+        <a href="{% url 'bboard:detail' pk=bb.pk %}">
+        {{ bb.title_and_price }}</a>
+    </h2>
     <p>{{ bb.content }}</p>
 
     <p>

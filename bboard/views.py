@@ -2,7 +2,8 @@ from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect, HttpResponseNotFound, Http404
 from django.urls import reverse_lazy, reverse
-from django.views.generic import DetailView
+from django.views.generic.detail import DetailView
+from django.views.generic import ListView
 from django.views.generic.base import TemplateView
 from django.template import loader
 from django.template.loader import get_template, render_to_string
@@ -95,6 +96,15 @@ class BbByRubricView(TemplateView):
 #         return render(request, 'create.html', context)
 
 
+class BbDetailView(DetailView):
+    model = Bb
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rubrics'] = Rubric.objects.all()
+        return context
+
+
 class BbCreateView(CreateView):
     template_name = 'create.html'
     form_class = BbForm
@@ -118,6 +128,19 @@ class RubricCreateView(CreateView):
         context['rubrics'] = Rubric.objects.all()
         return context
 
+
+class BbRubricListView(ListView):
+    template_name = 'by_rubric.html'
+    context_object_name = 'bbs'
+
+    def get_queryset(self):
+        return Bb.objects.filter(rubric=self.kwargs['rubric_id'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rubrics'] = Rubric.objects.all()
+        context['current_rubric'] = Rubric.objects.get(pk=self.kwargs['rubric_id'])
+        return context
 
 # def detail(request, bb_id):
 #     try:
