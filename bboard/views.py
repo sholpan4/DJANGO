@@ -7,7 +7,7 @@ from django.views.generic import ListView
 from django.views.generic.base import TemplateView
 from django.template import loader
 from django.template.loader import get_template, render_to_string
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, FormView
 
 from .forms import BbForm, RubricForm
 from .models import Bb, Rubric  #находимся в bboard
@@ -141,6 +141,29 @@ class BbRubricListView(ListView):
         context['rubrics'] = Rubric.objects.all()
         context['current_rubric'] = Rubric.objects.get(pk=self.kwargs['rubric_id'])
         return context
+
+
+class BbAddView(FormView):
+    template_name = 'create.html'
+    form_class = BbForm
+    initial = {'price': 0.0}
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rubrics'] = Rubric.objects.all()
+        return context
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+    def get_form(self, form_class=None):
+        self.object = super().get.form(form_class)
+        return self.object
+
+    def get_success_url(self):
+        return reverse('bboard:by_rubric', kwargs={'rubric_id': self.object.cleaned_data['rubric'].pk})
+
 
 # def detail(request, bb_id):
 #     try:
