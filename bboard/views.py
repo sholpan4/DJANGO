@@ -4,57 +4,52 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanen
 from django.urls import reverse_lazy, reverse
 from django.views.generic.detail import DetailView
 from django.views.generic import ListView
-from django.views.generic.base import TemplateView
+from django.views.generic.dates import ArchiveIndexView, MonthArchiveView
+from django.views.generic.base import TemplateView, RedirectView
 from django.template import loader
 from django.template.loader import get_template, render_to_string
-from django.views.generic.edit import CreateView, FormView
+from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 
 from .forms import BbForm, RubricForm
-from .models import Bb, Rubric  #находимся в bboard
-
-
-def index(request):
-    bbs = Bb.objects.all()
-    rubrics = Rubric.objects.annotate(cnt=Count('bb')).filter(cnt__gt=0)
-    context = {'bbs': bbs, 'rubrics': rubrics}
-
-    # bbs = Bb.objects.order_by('-published')
-    # rubrics = Rubric.objects.all()
-    # rubrics = Rubric.objects.filter(bb__isnull=False).distinct()
-
-    # template = get_template('index.html')
-    # return HttpResponse(
-    #     # template.render(context=context, request=request))
-    #     template.render(context, request))
-    # return render(request, 'index.html', context)
-    return HttpResponse (
-        render_to_string('index.html', context, request)
-    )
+from .models import Bb, Rubric
 
 
 # def index(request):
-#     rubrics = get_object_or_404(Rubric.objects.annotate(cnt=Count('bb')).filter(cnt__gt=0))
-#     bbs = get_list_or_404(Bb, rubric=rubrics)
-#     context = {'bbs': bbs, 'rubric': rubrics}
-#     return HttpResponse(render_to_string('index.html', context, request))
-
-
-# def index(request):
-#     bbs = Bb.objects.order_by('-published')
-#     # rubrics = Rubric.objects.all()
-#     # rubrics = Rubric.objects.filter(bb__isnull=False).distinct()
+#     bbs = Bb.objects.all()
 #     rubrics = Rubric.objects.annotate(cnt=Count('bb')).filter(cnt__gt=0)
 #     context = {'bbs': bbs, 'rubrics': rubrics}
-#     return render(request, 'index.html', context)
+#     return HttpResponse (
+#         render_to_string('index.html', context, request)
+#     )
+
+class BbIndexView(ArchiveIndexView):
+    model = Bb
+    template_name = 'index.html'
+    date_field = 'published'
+    date_list_period = 'month'
+    # поумолчанию year, можно не писать
+    context_object_name = 'bbs'
+    allow_empty = True
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rubrics'] = Rubric.objects.all()
+        return context
 
 
-# def by_rubric(request, rubric_id):
-#     bbs = Bb.objects.filter(rubric=rubric_id)
-#     # rubrics = Rubric.objects.all()
-#     rubrics = Rubric.objects.annotate(cnt=Count('bb')).filter(cnt__gt=0)
-#     current_rubric = Rubric.objects.get(pk=rubric_id)
-#     context = {'bbs': bbs, 'rubrics': rubrics, 'current_rubric': current_rubric}
-#     return render(request, 'by_rubric.html', context)
+class BbMonthView(MonthArchiveView):
+    model = Bb
+    template_name = 'index.html'
+    date_field = 'published'
+    date_list_period = 'month'
+    month_format = '%m'
+    context_object_name = 'bbs'
+    allow_empty = True
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rubrics'] = Rubric.objects.all()
+        return context
 
 
 class BbByRubricView(TemplateView):
@@ -66,34 +61,6 @@ class BbByRubricView(TemplateView):
         context['rubrics'] = Rubric.objects.all()
         context['current_rubric'] = Rubric.objects.get(pk=context['rubric_id'])
         return context
-
-
-# def add_and_save(request):
-#     print(request.headers['Accept-Encoding'])
-#     print(request.headers['accept-encoding'])
-#     print(request.headers['accept_encoding'])
-#     print(request.headers['Cookie'])
-#     print(request.resolver_match)
-#     print(request.body)
-#
-#     # if request.is_ajax():
-#     # if request.headers.get('x-request-with') == 'XMLHttpRequest':
-#
-#     if request.method == 'POST':
-#         bbf = BbForm(request.POST)
-#         if bbf.is_valid():
-#             bbf.save()
-#             return HttpResponseRedirect(
-#                 reverse('bboard:by_rubric',
-#                         kwargs={'rubric_id': bbf.cleaned_data['rubric'].pk})
-#             )
-#         else:
-#             context = {'form': bbf}
-#             return render(request, 'create.html', context)
-#     else:
-#         bbf = BbForm()
-#         context = {'form': bbf}
-#         return render(request, 'create.html', context)
 
 
 class BbDetailView(DetailView):
@@ -108,13 +75,11 @@ class BbDetailView(DetailView):
 class BbCreateView(CreateView):
     template_name = 'create.html'
     form_class = BbForm
-    success_url = reverse_lazy('bboard:index')
+    success_url = '/'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context['rubrics'] = Rubric.objects.all()
-        # context['rubrics'] = Rubric.objects.filter(bb__isnull=False).distinct()
-        context['rubrics'] = Rubric.objects.annotate(cnt=Count('bb')).filter(cnt__gt=0)
+        context['rubrics'] = Rubric.objects.all()
         return context
 
 
@@ -143,45 +108,27 @@ class BbRubricListView(ListView):
         return context
 
 
-class BbAddView(FormView):
-    template_name = 'create.html'
+class BbEditView(UpdateView):
+    model = Bb
     form_class = BbForm
-    initial = {'price': 0.0}
+    success_url = '/'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['rubrics'] = Rubric.objects.all()
+        context['rubric'] = Rubric.objects.all()
         return context
 
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
 
-    def get_form(self, form_class=None):
-        self.object = super().get.form(form_class)
-        return self.object
+class BbDeleteView(DeleteView):
+    model = Bb
+    success_url = '/'
 
-    def get_success_url(self):
-        return reverse('bboard:by_rubric', kwargs={'rubric_id': self.object.cleaned_data['rubric'].pk})
-
-
-# def detail(request, bb_id):
-#     try:
-#         bb = Bb.objects.get(pk=bb_id)
-#     except Bb.DoesNotExist:
-#         # return HttpResponseNotFound('Такое объявление не существует')
-#         raise Http404('Такое объявление не существует')
-#     return HttpResponse()
-
-# class BbDetailView(DetailView):
-#     template_name = ''
-#     form_class = BbSms
-#     success_url = reverse_lazy
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rubric'] = Rubric.objects.all()
+        return context
 
 
+class BbRedirectView(RedirectView):
+    url = '/'
 
-# def index_old(request):
-#     template = loader.get_template('index.html')
-#     bbs = Bb.objects.order_by('-published')
-#     context = {'bbs': bbs}
-#     return HttpResponse(template.render(context, request))
