@@ -20,3 +20,15 @@ nav a {
 section {
     margin-left: 220px;
 }
+
+.b1 {
+    background-color: gray;
+}
+
+.b2 {
+    background-color: darkseagreen;
+}
+
+.b3 {
+    background-color: lightblue;
+}

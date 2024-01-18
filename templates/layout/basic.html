@@ -20,8 +20,18 @@
 {#    <a href="{% url 'bboard:chronology' %}">Хронология</a>#}
 {#{{ rubric.0 }}#}
     {% for rubric in rubrics %}
+        {%  with bb_count=rubric.cnt %}
+{#            {% spaceless %}#}
 <!--        <a href="{#% url 'bboard:by_rubric' rubric.pk %#}">{{ rubric.name }}</a>-->
-        <a href="{{ rubric.get_absolute_url }}">{{ rubric }}({{ rubric.cnt }})</a>
+{#          <a href="{{ rubric.get_absolute_url }}">{{ rubric }}({{ rubric.cnt }})</a>#}
+            <a href="{{ rubric.get_absolute_url }}">
+{#              {% filter force_escape|upper %}#}
+                {% filter upper %}
+                {{ rubric.name }}
+                {% endfilter %}
+                ({{ bb_count }})</a>
+{#            {% endspaceless %}#}
+        {% endwith%}
     {% endfor %}
 </nav>
 
@@ -29,6 +39,8 @@
   {% block content %}
   {% endblock %}
 </section>
+
+<footer>&copy; 1988 &ndash; {% now 'Y' %}</footer>
 
 </body>
 </html>
