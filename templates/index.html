@@ -1,6 +1,9 @@
 {% extends "layout/basic.html" %}
 
 {% block content %}
+    
+    {{ block.super }}
+    
     <p>
     {% for d in date_list %}
         {{ d.year }} /
