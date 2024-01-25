@@ -6,14 +6,8 @@
     <meta charset="UTF-8">
     <title>{% block title %}Главная{% endblock %} :: Доска объявлений</title>
 
-{#    {% static 'style.css' as css_url %}#}
-{#    <link rel="stylesheet" href="{{ css_url }}">#}
-
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'style.css' %}">
-    
-{#    <link rel="stylesheet" href="{% get_static_prefix %}style.css">#}
-
-{#    <link rel="stylesheet" href="{{ STATIC_URL }}style.css">#}
 
 </head>
 <body>
@@ -30,7 +24,10 @@
   {% endblock %}
 </section>
 
-<footer>&copy; 1988 &ndash; {% now 'Y' %}</footer>
+<div class=""></div>
+<footer class="text-center">&copy; 1988 &ndash; {% now 'Y' %}</footer>
+
+<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
 </body>
 </html>

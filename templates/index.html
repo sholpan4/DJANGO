@@ -2,32 +2,20 @@
 
 {% block content %}
     
-    {{ block.super }}
-    
-    <p>
-    {% for d in date_list %}
-        {{ d.year }} /
-        <a href="{% url 'bboard:month' year=d.year month=d.month %}">{{ d.year }} - {{ d.month }}</a>
-    {% endfor %}
-    </p>
-
-{% for bb in bbs|dictsort:'price' %}
-{#{% cycle 'b1' 'b2' 'b3' as currentclass %}  #}
-{#<div class="{{ currentclass }}">    #}
-<div class="{% cycle 'b1' 'b2' 'b3' %}">
-{#<div style="background-color{% cycle '#6f94c6' '#006b1b' '#f5dd5d' %}">#}
-<!--    <h2>{{ bb.title }}</h2>-->
+{% for bb in bbs %}
+<div>
     <h2>
         {% url 'bboard:detail' pk=bb.pk as detail_url %}
         <a href="{{ detail_url }}">
-        {{ forloop.counter }} - {{ bb.title_and_price }}
+{#        {{ forloop.counter0|add:page.start_index }} - {{ bb.title_and_price }}#}
+        {{ forloop.counter0|add:page_obj.start_index }} - {{ bb.title_and_price }}
             {% if forloop.first == True %}
                 Первое Объявление
             {% elif forloop.last == True %} 
                 Последнее Объявление
             {% endif %}</a>
     </h2>
-    <p>{{ bb.content|truncatewords_html:2|cut:'красный' }}</p>
+    <p>{{ bb.content|truncatewords_html:2 }}</p>
     {% ifchanged bb.rubric.name %}
     <p>
         <a href="{% url 'bboard:by_rubric' bb.rubric.pk %}">{{ bb.rubric.name }}</a>
@@ -35,12 +23,12 @@
     {% endifchanged %}
 
     <p>{{ bb.published|date:"d.m.Y H:i:s" }}</p>
-
-    {% firstof bb.phone bb.email 'На деревню дедушке' %}
-
 </div>
 {% empty %}
     <p>Обявлений нет!</p>
 {% endfor %}
 
+{#{% include 'includes/inc_paginator.html' %}#}
+{% include 'includes/inc_paginator_cbv.html' %}
+    
 {% endblock %}

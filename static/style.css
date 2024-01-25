@@ -21,6 +21,11 @@ section {
     margin-left: 220px;
 }
 
+section::after{
+    display: block;
+
+}
+
 .b1 {
     background-color: gray;
 }
