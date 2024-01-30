@@ -155,18 +155,21 @@ class UserDetailView(DetailView):
         return render(request, 'user_details.html', {'form': form})
 
 
-# class UserDetailsFormView(View):
-#     template_name = 'user_details_form.html'
-# 
-#     def post(self, request):
-#         form = UserDetailsForm(request.POST)
-#         if form.is_valid():
-#             user_id = form.cleaned_data['user_id']
-#             try:
-#                 user = User.objects.get(id=user_id)
-#                 return render(request, 'user_details.html', {'user': user})
-#             except User.DoesNotExist:
-#                 error_message = 'User with ID {} does not exist.' .format(user_id)
-#                 return render(request, 'user_details_form.html', {'form': form, 'error_message': error_message})
-#         return render(request, 'user_details_form.html', {'form': form})
+class RecordView(View):
+    template_name = 'record_list.html'
 
+    def get(self, request, **kwargs):
+        record_id = kwargs.get('record_id')
+        if record_id:
+            record = Bb.objects.get(id=record_id)
+            return render(request, self.template_name, {'record': record})
+        records = Bb.objects.all()
+        return render(request, self.template_name, {'records': records})
+
+
+class PostListView(View):
+    template_name = 'post_list.html'
+
+    def get(self, request):
+        posts = Bb.objects.order_by('-published')
+        return render(request, self.template_name, {'posts': posts})

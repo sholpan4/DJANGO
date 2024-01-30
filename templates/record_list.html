@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Record</title>
+</head>
+<body>
+{% if record %}
+    <h1>{{ record.title }}</h1>
+{% else %}
+    <h1>All Records</h1>
+    <ul>
+        {% for rec in records %}
+            <li>
+                <h2>{{ rec.title }}</h2>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+</body>
+</html>

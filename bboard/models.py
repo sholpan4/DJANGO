@@ -57,13 +57,6 @@ class Rubric(models.Model):
 
 
 class Bb(models.Model):
-    # class Kinds(models.TextChoices):
-    #     BUY = 'b', 'Куплю'
-    #     SELL = 's', 'Продам'
-    #     RENT = 'r'
-    #     __empty__ = 'Выберите тип обявления'
-    #
-    # kind = models.CharField(max_length=1, choices=Kinds.choices, default=Kinds.SELL)
 
     KINDS = (
         ('b', 'Куплю'),
@@ -71,22 +64,6 @@ class Bb(models.Model):
         ('c', 'Обменяю'),
     )
 
-    # KINDS = (
-    #     ('Купля-продажа', (
-    #         ('b', 'Куплю'),
-    #         ('s', 'Продам'),
-    #     )),
-    #     ('Обмен', (
-    #         ('c', 'Обменяю'),
-    #     )),
-    # )
-    # KINDS = (
-    #     (None, 'Выберите тип обявления'),
-    #     ('b', 'Куплю'),
-    #     ('s', 'Продам'),
-    #     ('c', 'Обменяю'),
-    # )
-    #
     kind = models.CharField(max_length=1, choices=KINDS, default='s', verbose_name='Тип объявления')
     # kind = models.CharField(max_length=1, choices=KINDS, blank=True)
     rubric = models.ForeignKey("Rubric", null=True, on_delete=models.PROTECT, verbose_name="Рубрика")  #внешний ключ аргумент должен быть выше если без кавычек
