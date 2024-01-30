@@ -1,3 +1,4 @@
+from django.core.exceptions import NON_FIELD_ERRORS
 from django.core.paginator import Paginator
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, get_list_or_404
@@ -164,3 +165,53 @@ class BbRedirectView(RedirectView):
 #         context['bbs'] = Bb.objects.order_by('-pub_date')
 #         return context
 
+def edit(request, pk):
+    bb = Bb.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        bbf = BbForm(request.POST, instance=bb)
+        if bbf.is_valid():
+            if bbf.has_changed():
+                bbf.save()
+            # return HttpResponseRedirect(
+            #         reverse('bboard:by_rubric', kwargs={'rubric_id': bbf.cleaned_data['rubric'].pk})
+            # )
+            return HttpResponseRedirect(
+                reverse('bboard:detail', kwargs={'pk': pk})
+            )
+        else:
+            context = {'form': bbf}
+            return render(request, 'bboard/bb_form.html', context)
+    else:
+        bbf = BbForm(instance=bb)
+        context = {'form': bbf}
+        return render(request, 'bboard/bb_form.html', context)
+
+
+    # bbf = BbForm(request.POST)
+    # # if bbf.is_valid():
+    # #     pass
+    # # else:
+    # #     pass
+    # if bbf.errors:
+    #     title_errors = bbf.errors['title']
+    #     form_errors = bbf.errors[NON_FIELD_ERRORS]
+    # bb = bbf.save(commit=False)
+    # if not bb.kind:
+    #     bb.kind = 's'
+    #
+    # bb.save()
+    # return HttpResponseRedirect(
+    #     reverse('bboard:by_rubric', kwargs={'rubric_id': bbf.cleaned_data['rubric'].pk})
+    # )
+
+def add_save(request):
+    bbf = BbForm(request.POST)
+    if bbf.is_valid():
+        bbf.save()
+        return HttpResponseRedirect(
+                reverse('bboard:by_rubric', kwargs={'rubric_id': bbf.cleaned_data['rubric'].pk})
+        )
+    else:
+        context = {'form': bbf}
+        return render(request, 'bboard/bb_form.html', context)

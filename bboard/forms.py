@@ -12,6 +12,7 @@ class BbForm(forms.ModelForm):
                                     help_text='Не забудь выбрать рубрику!',
                                     widget=forms.widgets.Select(attrs={'size': 8}))
     datetime = forms.DateField(widget=forms.widgets.SelectDateWidget())
+    # published = forms.DateField(widget=forms.widgets.SelectDateWidget(empty_label=('Выберите год', 'Выберите месяц', 'Выберите дату')))
 
     class Meta:
         model = Bb
@@ -20,9 +21,8 @@ class BbForm(forms.ModelForm):
 
 
 class RegisterUserForm(forms.ModelForm):
-    password1 = forms.CharField(label='Парол')
-    password2 = forms.CharField(label='Пароль (повторно)')
-
+    password1 = forms.CharField(label='Парол', widget=forms.widgets.PasswordInput())
+    password2 = forms.CharField(label='Пароль (повторно)', widget=forms.widgets.PasswordInput())
 
     class Meta:
         model = User
