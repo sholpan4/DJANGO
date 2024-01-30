@@ -21,9 +21,10 @@ section {
     margin-left: 220px;
 }
 
-section::after{
+section::after {
     display: block;
-
+    content: '';
+    clear: both;
 }
 
 .b1 {
