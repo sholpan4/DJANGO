@@ -4,8 +4,14 @@
     <h2>Task List</h2>
     <ul>
         {% for task in tasks %}
-        <li>{{ task.title }} - {{ task.description }} -
-            {% if task.completed %}Completed{% else %}Not Completed{% endif %}</li>
+        <li>
+            {% if task.completed %}
+                {{ task.title|upper }} (Completed)
+            {% else %}
+                <strong>{{ task.title|make_list }}</strong> (Not Completed)
+                {% now 'SHORT_DATETIME_FORMAT' %}
+            {% endif %}
+        </li>
         {% endfor %}
     </ul>
     <a href="{% url 'todolist:create_task' %}">Create Task</a>
