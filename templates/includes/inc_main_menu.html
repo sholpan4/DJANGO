@@ -2,6 +2,8 @@
     <a href="{% url 'bboard:index' %}">Главная</a>
     <a href="{% url 'bboard:add' %}">Добавить</a>
     <a href="{% url 'bboard:add_rubric' %}">Добавить рубрику</a>
+    <a href="{% url 'todolist:task_list' %}">Список задач</a>
+    <a href="{% url 'todolist:create_task' %}">Создать задачу</a>
 
     {% for rubric in rubrics %}
         {%  with bb_count=rubric.cnt %}

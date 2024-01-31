@@ -1,0 +1,12 @@
+{% extends "layout/basic.html" %}
+
+{% block content %}
+    <h2>Task List</h2>
+    <ul>
+        {% for task in tasks %}
+        <li>{{ task.title }} - {{ task.description }} -
+            {% if task.completed %}Completed{% else %}Not Completed{% endif %}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'todolist:create_task' %}">Create Task</a>
+{% endblock %}

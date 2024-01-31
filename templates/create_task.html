@@ -1,0 +1,11 @@
+{% extends "layout/basic.html" %}
+
+{% block content %}
+    <h2>Create Task</h2>
+    <form method="post" action="{% url 'todolist:create_task' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Task</button>
+    </form>
+    <a href="{% url 'todolist:task_list' %}">Back To Task List</a>
+{% endblock %}
