@@ -91,6 +91,11 @@ class RegisterUserForm(forms.ModelForm):
 
 
 class RubricForm(forms.ModelForm):
+    name = forms.CharField(label='Название рубрики',
+                           validators=[validators.MinLengthValidator(5, )],
+                           error_messages={'invalid': 'Слишком короткое название рубрики!'}
+                           )
+
     class Meta:
         model = Rubric
-        fields = ('name', )
+        fields = ('name',)

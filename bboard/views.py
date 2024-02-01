@@ -1,15 +1,12 @@
-from django.core.exceptions import NON_FIELD_ERRORS
 from django.core.paginator import Paginator
 from django.db.models import Count
-from django.shortcuts import render, get_object_or_404, get_list_or_404
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect, HttpResponseNotFound, Http404
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic.detail import DetailView
 from django.views.generic import ListView
 from django.views.generic.dates import ArchiveIndexView, MonthArchiveView
 from django.views.generic.base import TemplateView, RedirectView
-from django.template import loader
-from django.template.loader import get_template, render_to_string
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 
 from .forms import BbForm, RubricForm
@@ -151,20 +148,6 @@ class BbRedirectView(RedirectView):
     url = '/'
 
 
-# class BbPostView(MonthArchiveView):
-#     model = Bb
-#     template_name = 'index.html'
-#     date_field = 'published'
-#     date_list_period = 'month'
-#     month_format = '%m'
-#     context_object_name = 'bbs'
-#     allow_empty = True
-#
-#     def get_context_data(self, *, object_list=None, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['bbs'] = Bb.objects.order_by('-pub_date')
-#         return context
-
 def edit(request, pk):
     bb = Bb.objects.get(pk=pk)
 
@@ -188,23 +171,6 @@ def edit(request, pk):
         return render(request, 'bboard/bb_form.html', context)
 
 
-    # bbf = BbForm(request.POST)
-    # # if bbf.is_valid():
-    # #     pass
-    # # else:
-    # #     pass
-    # if bbf.errors:
-    #     title_errors = bbf.errors['title']
-    #     form_errors = bbf.errors[NON_FIELD_ERRORS]
-    # bb = bbf.save(commit=False)
-    # if not bb.kind:
-    #     bb.kind = 's'
-    #
-    # bb.save()
-    # return HttpResponseRedirect(
-    #     reverse('bboard:by_rubric', kwargs={'rubric_id': bbf.cleaned_data['rubric'].pk})
-    # )
-
 def add_save(request):
     bbf = BbForm(request.POST)
     if bbf.is_valid():
@@ -214,4 +180,16 @@ def add_save(request):
         )
     else:
         context = {'form': bbf}
+        return render(request, 'bboard/bb_form.html', context)
+
+
+def edit_save(request):
+    rubric = RubricForm(request.POST)
+    if rubric.is_valid():
+        rubric.save()
+        return HttpResponseRedirect(
+            reverse('bboard:by_rubric', kwargs={'rubric_id': rubric.cleaned_data['']})
+        )
+    else:
+        context = {'form': rubric}
         return render(request, 'bboard/bb_form.html', context)

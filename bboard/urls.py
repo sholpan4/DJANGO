@@ -1,12 +1,13 @@
 from django.urls import path, re_path
 from .views import (BbIndexView, BbByRubricView, BbCreateView, RubricCreateView, BbDetailView, BbEditView, BbDeleteView,
-                    BbRedirectView, BbMonthView, edit, add_save)
+                    BbRedirectView, BbMonthView, edit, add_save, edit_save)
 
 app_name = 'bboard'
 
 urlpatterns = [
     path('detail/<int:pk>/', BbDetailView.as_view(), name='detail'),
-    path('add/rubric/', RubricCreateView.as_view(), name='add_rubric'),
+    # path('add/rubric/', RubricCreateView.as_view(), name='add_rubric'),
+    path('add/rubric/', edit_save, name='add_rubric'),
     path('add/save', add_save, name='add_save'),
     path('add/', BbCreateView.as_view(), name='add'),
     path('update/<int:pk>/', BbEditView.as_view(), name='update'),
