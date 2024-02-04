@@ -1,6 +1,8 @@
-{% extends "layout/basic.html" %}
+{% extends "layout/base_task.html" %}
 
-{% block content %}
+{% block title %}Task List{% endblock %}
+
+{% block main %}
     <h2>Task List</h2>
     <ul>
         {% for task in tasks %}
