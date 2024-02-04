@@ -43,7 +43,8 @@ class BbIndexView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['rubrics'] = Rubric.objects.annotate(cnt=Count('bb')).filter(cnt__gt=0)
+        # context['rubrics'] = Rubric.objects.annotate(cnt=Count('bb')).filter(cnt__gt=0)
+        context['rubrics'] = Rubric.objects.all()
         return context
 
 
@@ -184,12 +185,14 @@ def add_save(request):
 
 
 def edit_save(request):
-    rubric = RubricForm(request.POST)
-    if rubric.is_valid():
-        rubric.save()
-        return HttpResponseRedirect(
-            reverse('bboard:by_rubric', kwargs={'rubric_id': rubric.cleaned_data['']})
-        )
+    if request.method == 'POST':
+        form = RubricForm(request.POST)
+    # rubric = RubricForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('bboard:index'))
     else:
-        context = {'form': rubric}
-        return render(request, 'bboard/bb_form.html', context)
+        form = RubricForm()
+
+    context = {'form': form}
+    return render(request, 'create_rubric.html', context)
