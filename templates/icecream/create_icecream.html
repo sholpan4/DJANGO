@@ -1,0 +1,14 @@
+{% extends "layout/basic.html" %}
+
+{% block title %}Create Ice Cream{% endblock %}
+
+{% block content %}
+    <h2>Create Ice Cream</h2>
+
+    <form method="post" action="{% url 'icecream:create_icecream'%}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create Ice Cream</button>
+    </form>
+    <a href="{% url 'icecream:icecream_index' %}">Back To Ice Cream List</a>
+{% endblock %}

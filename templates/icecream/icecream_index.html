@@ -1,0 +1,16 @@
+{% extends "layout/basic.html" %}
+
+{% block title %}Ice Cream{% endblock %}
+
+{% block content %}
+    <h2>Welcome to our Ice Cream Shop</h2>
+    <p>Discover our delicious ice cream flavors!</p>
+    <a href="{% url 'icecream:create_icecream' %}">Create New Ice Cream</a>
+
+    <ul>
+        {% for ice_cream in icecreams %}
+            <li>{{ ice_cream.flavor }} - {{ ice_cream.topping }}
+              {% if ice_cream.is_vegan %} (Vegan){% endif %}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
