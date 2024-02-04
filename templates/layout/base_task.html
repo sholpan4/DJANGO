@@ -4,10 +4,12 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <title>{% block title %}Title{% endblock %}</title>
 </head>
 <body>
+
     <header>
         <h1>Задачи</h1>
     </header>
@@ -20,5 +22,8 @@
     </div>
 
     <footer>&copy; 2023 &ndash; {% now 'Y' %}</footer>
+
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
 </body>
 </html>

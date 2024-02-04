@@ -17,4 +17,7 @@
         {% endfor %}
     </ul>
     <a href="{% url 'todolist:create_task' %}">Create Task</a>
+
+{% include 'includes/inc_paginator.html' %}
+
 {% endblock %}
