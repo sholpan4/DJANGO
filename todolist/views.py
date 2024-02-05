@@ -6,7 +6,7 @@ from .forms import TaskForm
 
 def task_list(request):
     tasks = Task.objects.all()
-    paginator = Paginator(tasks, 2, orphans=2)
+    paginator = Paginator(tasks, 2)
 
     page_num = request.GET.get('page', 1)
     try:
