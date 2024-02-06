@@ -36,16 +36,10 @@ class MinMaxValueValidator:
 
 class Rubric(models.Model):
     name = models.CharField(max_length=20, db_index=True, verbose_name="Название", unique=True)
-    # slug = models.SlugField(max_length=160, unique=True, verbose_name="Слаг", default='')
+    order = models.SmallIntegerField(default=0, db_index=True)
 
     def __str__(self):
         return self.name #изменение rubric object 1 на недвижимость
-    
-    # def save(self, *args, **kwargs):
-    #     super().save(*args, **kwargs)
-
-    # def delete(self, *args, **kwargs):
-    #     super().delete(*args, **kwargs)
 
     def get_absolute_url(self):
         return f"/{self.pk}/"
@@ -53,42 +47,17 @@ class Rubric(models.Model):
     class Meta:
         verbose_name_plural = 'Рубрики'
         verbose_name = 'Рубрика'
-        ordering = ['name']  #сортировка по имени
+        ordering = ['order', 'name']  #сортировка по имени
 
 
 class Bb(models.Model):
-    # class Kinds(models.TextChoices):
-    #     BUY = 'b', 'Куплю'
-    #     SELL = 's', 'Продам'
-    #     RENT = 'r'
-    #     __empty__ = 'Выберите тип обявления'
-    #
-    # kind = models.CharField(max_length=1, choices=Kinds.choices, default=Kinds.SELL)
-
     KINDS = (
         ('b', 'Куплю'),
         ('s', 'Продам'),
         ('c', 'Обменяю'),
     )
 
-    # KINDS = (
-    #     ('Купля-продажа', (
-    #         ('b', 'Куплю'),
-    #         ('s', 'Продам'),
-    #     )),
-    #     ('Обмен', (
-    #         ('c', 'Обменяю'),
-    #     )),
-    # )
-    # KINDS = (
-    #     (None, 'Выберите тип обявления'),
-    #     ('b', 'Куплю'),
-    #     ('s', 'Продам'),
-    #     ('c', 'Обменяю'),
-    # )
-    #
     kind = models.CharField(max_length=1, choices=KINDS, default='s', verbose_name='Тип объявления')
-    # kind = models.CharField(max_length=1, choices=KINDS, blank=True)
     rubric = models.ForeignKey("Rubric", null=True, on_delete=models.PROTECT, verbose_name="Рубрика")  #внешний ключ аргумент должен быть выше если без кавычек
     title = models.CharField(
         # unique=True
@@ -96,20 +65,13 @@ class Bb(models.Model):
         verbose_name="Товар",
         validators=[validators.RegexValidator(regex='^.{4,}$')],
         error_messages={'invalid': 'Это мы сами написали'}
-        # validators=[validators.MinLengthValidator(4),
-        #             validators.MaxValueValidator(50)]
-    )
+      )
 
     content = models.TextField(null=True, blank=True, verbose_name="Описание")
     price = models.DecimalField(max_digits=8,
                                 decimal_places=2,
                                 verbose_name="Цена",
                                 default=0,
-                                # validators=[validators.MinValueValidator(0),
-                                #             validators.MaxValueValidator(100500),
-                                #             validators.DecimalValidator(8, 2)]
-                                # validators=[validate_even,
-                                #             MinMaxValueValidator(25, 45)]
                                 )
     is_active = models.BooleanField(default=is_active_default)
     published = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликовано")

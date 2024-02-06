@@ -94,3 +94,7 @@ class RubricForm(forms.ModelForm):
     class Meta:
         model = Rubric
         fields = ('name', )
+
+
+class RubricBaseFormset():
+    pass

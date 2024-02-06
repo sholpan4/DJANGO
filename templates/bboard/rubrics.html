@@ -1,0 +1,24 @@
+{% extends "layout/basic.html" %}
+
+{% block title %}Изменение рубрик{% endblock %}
+
+{% block content %}
+
+<h2>Изменение рубрик</h2>
+
+
+<form method="post">
+    {% csrf_token %}
+
+{#    {{ formset.as_p }}#}
+    
+    {{ formset.management_form }}
+    
+
+    <p><button type="submit" class="btn btn-primary">Сохранить</button> </p>
+</form>
+    
+{% endblock %}
+
+
+
