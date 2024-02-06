@@ -1,7 +1,7 @@
 from django.core.exceptions import NON_FIELD_ERRORS
 from django.core.paginator import Paginator
 from django.db.models import Count
-from django.forms import modelformset_factory
+from django.forms import modelformset_factory, inlineformset_factory
 from django.forms.formsets import ORDERING_FIELD_NAME
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect, HttpResponseNotFound, Http404
@@ -14,7 +14,7 @@ from django.template import loader
 from django.template.loader import get_template, render_to_string
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 
-from .forms import BbForm, RubricForm, RubricBaseFormset
+from .forms import BbForm, RubricForm, RubricBaseFormSet
 from .models import Bb, Rubric
 
 
@@ -221,7 +221,7 @@ def add_save(request):
 
 def rubrics(request):
     RubricFormSet = modelformset_factory(Rubric, RubricForm,
-                                         can_order=True, can_delete=True, formset=RubricBaseFormset)
+                                         can_order=True, can_delete=True, formset=RubricBaseFormSet)
 
     if request.method == 'POST':
         formset = RubricFormSet(request.POST)
@@ -245,4 +245,19 @@ def rubrics(request):
     context = {'formset': formset}
 
     return render(request, 'bboard/rubrics.html', context)
+
+
+def bbs(request, rubric_id):
+    BbsFormSet = inlineformset_factory(Rubric, Bb, form=BbForm, extra=1)
+    rubric = Rubric.objects.get(pk=rubric_id)
+    if request.method == 'POST':
+        formset = BbsFormSet(request.POST, instance=rubric)
+
+        if formset.is_valid():
+            formset.save()
+            return redirect('bboard:index')
+        else:
+            formset = BbsFormSet(instance=rubric)
+    context = {'formset': formset, 'current_rubric': rubric}
+    return render(request, 'bboard/bbs.html', context)
 

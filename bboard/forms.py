@@ -96,5 +96,10 @@ class RubricForm(forms.ModelForm):
         fields = ('name', )
 
 
-class RubricBaseFormset():
-    pass
+class RubricBaseFormSet(forms.BaseModelFormSet):
+    def clean(self):
+        super().clean()
+        names = [form.cleaned_data['name'] for form in self.forms
+                 if 'name' in form.cleaned_data]
+        if ('Недвижимость' not in names) or ('Транспорт' not in names) or ('Мебель' not in names):
+            raise ValidationError('Добавьте рубрики недвижимости, транспорта и мебели')
