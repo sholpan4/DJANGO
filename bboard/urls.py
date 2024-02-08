@@ -19,5 +19,5 @@ urlpatterns = [
     path('<int:year>/<int:month>/', BbMonthView.as_view(), name='month'),
 
     path('rubrics/', rubrics, name='rubrics'),
-    path('bbs/', bbs, name='bbs'),
+    path('bbs/<int:rubric_id>/', bbs, name='bbs'),
 ]

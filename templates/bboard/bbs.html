@@ -1,10 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>bbs</title>
-</head>
-<body>
+{% extends "layout/basic.html" %}
 
-</body>
-</html>
+{% block title %}Изменение объявлений рубрики {{ current_rubric }}{% endblock %}
+
+{% block content %}
+
+<h2>Изменение объявлений рубрики {{ current_rubric }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ formset.as_p }}
+
+    <p><button type="submit" class="btn btn-primary">Сохранить</button> </p>
+</form>
+{% endblock %}

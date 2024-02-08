@@ -256,8 +256,8 @@ def bbs(request, rubric_id):
         if formset.is_valid():
             formset.save()
             return redirect('bboard:index')
-        else:
-            formset = BbsFormSet(instance=rubric)
+    else:
+        formset = BbsFormSet(instance=rubric)
+
     context = {'formset': formset, 'current_rubric': rubric}
     return render(request, 'bboard/bbs.html', context)
-
