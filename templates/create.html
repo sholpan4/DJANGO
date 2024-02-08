@@ -21,6 +21,9 @@
         {{ form }}
     </table>
 {#    <input type="submit" value="Добавить">#}
+{#    {% if 'bboard.add_bb' in perms %}#}
+    {% if perms.bboard.add_bb %}
     <button type="submit" class="btn btn-primary">Добавить</button>
+    {% endif %}
 </form>
 {% endblock %}
