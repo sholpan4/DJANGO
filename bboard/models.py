@@ -34,9 +34,36 @@ class MinMaxValueValidator:
             )
 
 
+class RubricQuerySet(models.QuerySet):
+    def order_by_bb_count(self):
+        return self.annotate(cnt=models.Count('bb')).order_by('-cnt')
+    # Rubric.objects.all().order_by_bb_count()
+
+
+# диспетчер записей order
+class RubricManager(models.Manager):
+    def get_queryset(self):
+        # return super().get_queryset().order_by('-order', '-name')
+        return RubricQuerySet(self.model, using=self._db)
+
+    def order_by_bb_count(self):
+        # return super().get_queryset().annotate(cnt=models.Count('bb')).order_by('-cnt')
+        return self.get_queryset().order_by_bb_count()
+
+
+class BbManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().order_by('price')
+
+
 class Rubric(models.Model):
     name = models.CharField(max_length=20, db_index=True, verbose_name="Название", unique=True)
     order = models.SmallIntegerField(default=0, db_index=True)
+    # objects = RubricManager()
+    # objects = models.Manager()
+    # bbs = RubricManager()
+    # objects = RubricQuerySet.as_manager()
+    objects = models.Manager.from_queryset(RubricQuerySet)()
 
     def __str__(self):
         return self.name #изменение rubric object 1 на недвижимость
@@ -48,6 +75,12 @@ class Rubric(models.Model):
         verbose_name_plural = 'Рубрики'
         verbose_name = 'Рубрика'
         ordering = ['order', 'name']  #сортировка по имени
+
+
+class RevRubric(Rubric):
+    class Meta:
+        proxy = True
+        ordering = ['-name']
 
 
 class Bb(models.Model):
@@ -77,6 +110,8 @@ class Bb(models.Model):
     published = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликовано")
     updated = models.DateTimeField(auto_now=True, db_index=True, verbose_name="Изменено")
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    objects = models.Manager()
+    by_price = BbManager()
 
     def __str__(self):
         return f'{self.title}'
@@ -111,7 +146,4 @@ class Bb(models.Model):
         # order_with_respect_to = 'rubric' #возвращать отсортированный список с рубрикой
 
 
-class RevRubric(Rubric):
-    class Meta:
-        proxy = True
-        ordering = ['-name']
+
