@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'captcha',
+
     'bboard',
     'testapp',
 ]
@@ -147,3 +150,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = "bboard:login"
 LOGIN_REDIRECT_URL = "bboard:index"
 LOGOUT_REDIRECT_URL = "bboard:index"
+
+# CAPTCHA
+CAPTCHA_CHALLENGE_FUNC = 'captcha.helpers.random_char_challenge'
+CAPTCHA_LENGTH = 4  # 6
+CAPTCHA_WORDS_DICTIONARY = '/static/captcha_words.txt'
+CAPTCHA_TIMEOUT = 5  # MINUTES
+
+
+# DATA_UPLOAD_MAX_MEMORY_SIZE = 2621440   # 2.5 MBYTES
+# DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000
