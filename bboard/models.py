@@ -57,36 +57,12 @@ class Rubric(models.Model):
 
 
 class Bb(models.Model):
-    # class Kinds(models.TextChoices):
-    #     BUY = 'b', 'Куплю'
-    #     SELL = 's', 'Продам'
-    #     RENT = 'r'
-    #     __empty__ = 'Выберите тип обявления'
-    #
-    # kind = models.CharField(max_length=1, choices=Kinds.choices, default=Kinds.SELL)
-
     KINDS = (
         ('b', 'Куплю'),
         ('s', 'Продам'),
         ('c', 'Обменяю'),
     )
 
-    # KINDS = (
-    #     ('Купля-продажа', (
-    #         ('b', 'Куплю'),
-    #         ('s', 'Продам'),
-    #     )),
-    #     ('Обмен', (
-    #         ('c', 'Обменяю'),
-    #     )),
-    # )
-    # KINDS = (
-    #     (None, 'Выберите тип обявления'),
-    #     ('b', 'Куплю'),
-    #     ('s', 'Продам'),
-    #     ('c', 'Обменяю'),
-    # )
-    #
     kind = models.CharField(max_length=1, choices=KINDS, default='s', verbose_name='Тип объявления')
     # kind = models.CharField(max_length=1, choices=KINDS, blank=True)
     rubric = models.ForeignKey("Rubric", null=True, on_delete=models.PROTECT, verbose_name="Рубрика")  #внешний ключ аргумент должен быть выше если без кавычек
@@ -96,8 +72,6 @@ class Bb(models.Model):
         verbose_name="Товар",
         validators=[validators.RegexValidator(regex='^.{4,}$')],
         error_messages={'invalid': 'Это мы сами написали'}
-        # validators=[validators.MinLengthValidator(4),
-        #             validators.MaxValueValidator(50)]
     )
 
     content = models.TextField(null=True, blank=True, verbose_name="Описание")
@@ -105,11 +79,6 @@ class Bb(models.Model):
                                 decimal_places=2,
                                 verbose_name="Цена",
                                 default=0,
-                                # validators=[validators.MinValueValidator(0),
-                                #             validators.MaxValueValidator(100500),
-                                #             validators.DecimalValidator(8, 2)]
-                                # validators=[validate_even,
-                                #             MinMaxValueValidator(25, 45)]
                                 )
     is_active = models.BooleanField(default=is_active_default)
     published = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликовано")
