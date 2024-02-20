@@ -1,4 +1,5 @@
 # from django.forms import ModelForm, modelform_factory, DecimalField
+from captcha.fields import CaptchaField
 from django import forms
 from django.contrib.auth.models import User
 from django.core import validators
@@ -19,6 +20,11 @@ class BbForm(forms.ModelForm):
                                     help_text='Не забудь выбрать рубрику!',
                                     widget=forms.widgets.Select(attrs={'size': 8}))
     datetime = forms.DateField(widget=forms.widgets.SelectDateWidget())
+    captcha = CaptchaField(label='Введите текст картинки', error_messages={'invalid': 'Неправильный текст'},
+                           # generator='captcha.helper.random_char_challenge',
+                           # generator='captcha.helper.math_challenge',
+                           generator='captcha.helper.word_challenge',
+                           )
 
     def clean_title(self):
         # val = self.cleaned_data['title']
@@ -103,3 +109,13 @@ class RubricBaseFormSet(forms.BaseModelFormSet):
                  if 'name' in form.cleaned_data]
         if ('Недвижимость' not in names) or ('Транспорт' not in names) or ('Мебель' not in names):
             raise ValidationError('Добавьте рубрики недвижимости, транспорта и мебели')
+
+
+class SearchForm(forms.Form):
+    keyword = forms.CharField(max_length=20, label='Искомое слово', required=True)
+    rubric = forms.ModelChoiceField(queryset=Rubric.objects.all(), label='Рубрика')
+
+    captcha = CaptchaField(label='Введите текст картинки', error_messages={'invalid': 'Неправильный текст'})
+
+    error_css_class = 'error'
+    required_css_class = 'required'
