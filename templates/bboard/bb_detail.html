@@ -1,10 +1,20 @@
 {%  extends "layout/basic.html" %}
+{% load bbcode_tags %}
 
 {% block title %}{{ bb.title }}{% endblock %}
 
 {% block content %}
 	<p>Рубрика: {{ bb.rubric.name|title }}</p>
     <h2>{{ bb.title }}</h2>
+    
+    <h3>{{ bb.title }}</h3>
+    {% bbcode bb.content %}
+    
+    <h3>{{ bb.title }} фильтр</h3>
+    {{ bb.content|bbcode|safe }}
+    {# если прописали в модели content = BBCodeTextField(null=True, blank=True, verbose_name="Описание") #}
+{#    {{ bb.content.rendered }}#}
+    <h3>{{ bb.title }} обычное</h3>
     <p>{{ bb.content }} ({{ bb.content|wordcount }} words) ({{ bb.content|length }} symbols)</p>
     <p>Цена: {{ bb.price|floatformat:3|default:'У товара нет цены' }}</p>
     <p><a href="{% url 'bboard:update' bb.pk %}">Изменить</a> </p>

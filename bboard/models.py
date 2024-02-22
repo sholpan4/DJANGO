@@ -3,7 +3,7 @@ import uuid
 from django.core import validators
 from django.core.exceptions import ValidationError
 from django.db import models
-
+from precise_bbcode.fields import BBCodeTextField
 
 is_all_posts_passive = True
 
@@ -96,6 +96,9 @@ class Bb(models.Model):
       )
 
     content = models.TextField(null=True, blank=True, verbose_name="Описание")
+
+    # content = BBCodeTextField(null=True, blank=True, verbose_name="Описание")
+
     price = models.DecimalField(max_digits=8,
                                 decimal_places=2,
                                 verbose_name="Цена",

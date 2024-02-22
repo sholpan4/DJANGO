@@ -17,6 +17,7 @@ from django.views.generic.base import TemplateView, RedirectView
 from django.template import loader
 from django.template.loader import get_template, render_to_string
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
+from precise_bbcode.bbcode import get_parser
 
 from .forms import BbForm, RubricForm, RubricBaseFormSet, SearchForm
 from .models import Bb, Rubric
@@ -152,6 +153,13 @@ class BbDeleteView(DeleteView):
         context = super().get_context_data(**kwargs)
         context['rubric'] = Rubric.objects.all()
         return context
+
+
+def detail(request, pk):
+    parser = get_parser()
+    bb = Bb.objects.get(pk=pk)
+    parsed_content = parser.render(bb.content)
+    pass
 
 
 class BbRedirectView(RedirectView):

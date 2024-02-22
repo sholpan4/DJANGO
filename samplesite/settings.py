@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,8 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
 
     'captcha',
+    'precise_bbcode',
 
     'bboard',
     'testapp',
@@ -85,10 +87,22 @@ WSGI_APPLICATION = 'samplesite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        # "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "postgres",
+        "USER": "postgres",
+        "PASSWORD": "12345",
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
     }
 }
 
@@ -158,3 +172,11 @@ CAPTCHA_TIMEOUT = 5  # MINUTES
 
 # DATA_UPLOAD_MAX_MEMORY_SIZE = 2621440   # 2.5 MBYTES
 # DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000
+
+## BBCode
+BBCODE_NEWLINE = "<br>"
+# BBCODE_ESCAPE_HTML
+BBCODE_DISABLE_BUILTIN_TAGS = False
+BBCODE_ALLOW_CUSTOM_TAGS = True
+BBCODE_ALLOW_SMILIES = True
+BBCODE_SMILIES_UPLOAD_TO = os.path.join('static', 'precise_bbcode', 'smilies')
