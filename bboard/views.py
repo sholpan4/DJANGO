@@ -46,7 +46,7 @@ class BbIndexView(ListView):
     model = Bb
     template_name = 'index.html'
     context_object_name = 'bbs'
-    paginate_by = 2
+    paginate_by = 1
     paginate_orphans = 2
 
     def get_queryset(self):

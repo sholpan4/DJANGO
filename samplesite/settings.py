@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     'captcha',
     'precise_bbcode',
+    'bootstrap4',
 
     'bboard',
     'testapp',
@@ -180,3 +181,11 @@ BBCODE_DISABLE_BUILTIN_TAGS = False
 BBCODE_ALLOW_CUSTOM_TAGS = True
 BBCODE_ALLOW_SMILIES = True
 BBCODE_SMILIES_UPLOAD_TO = os.path.join('static', 'precise_bbcode', 'smilies')
+
+# BOOTSTRAP4 = {
+#     'horizontal_label_class': 'col-md-3',
+#     'horizontal_field_class': 'col-md-9',
+#     'required_css_class': '',
+#     'success_css_class': 'has-success',
+#     'error_css_class': 'has-error',
+# }

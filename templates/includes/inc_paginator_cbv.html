@@ -1,3 +1,8 @@
+{% load bootstrap4 %}
+
+{% bootstrap_pagination page_obj pages_to_show=3 size="small" %}
+
+
 {% if page_obj.has_other_pages %}
 <nav aria-label="pagination">
   <ul class="pagination">

@@ -23,7 +23,7 @@ class BbForm(forms.ModelForm):
     captcha = CaptchaField(label='Введите текст картинки', error_messages={'invalid': 'Неправильный текст'},
                            # generator='captcha.helper.random_char_challenge',
                            # generator='captcha.helper.math_challenge',
-                           generator='captcha.helper.word_challenge',
+                           # generator='captcha.helper.word_challenge',
                            )
 
     def clean_title(self):

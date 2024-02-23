@@ -1,4 +1,5 @@
 {% load static %}
+{% load bootstrap4 %}
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -6,11 +7,15 @@
     <meta charset="UTF-8">
     <title>{% block title %}Главная{% endblock %} :: Доска объявлений</title>
 
-    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    {% bootstrap_css %}
+    
+{#    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">#}
     <link rel="stylesheet" href="{% static 'style.css' %}">
 
 </head>
 <body>
+
+{% bootstrap_messages %}
 
 <header>
   <h1>Объявления</h1>
@@ -27,7 +32,8 @@
 <div class=""></div>
 <footer class="text-center">&copy; 1988 &ndash; {% now 'Y' %}</footer>
 
-<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+{#<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>#}
+{% bootstrap_javascript jquery='full' %}
 
 </body>
 </html>
