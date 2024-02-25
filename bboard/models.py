@@ -4,6 +4,7 @@ from django.core import validators
 from django.core.exceptions import ValidationError
 from django.db import models
 from precise_bbcode.fields import BBCodeTextField
+from localflavor.generic.models import PhoneNumberField
 
 is_all_posts_passive = True
 
@@ -59,6 +60,7 @@ class Rubric(models.Model):
     name = models.CharField(max_length=20, db_index=True, verbose_name="Название", unique=True)
     order = models.SmallIntegerField(default=0, db_index=True)
     objects = models.Manager.from_queryset(RubricQuerySet)()
+    phone_number = PhoneNumberField()
 
     def __str__(self):
         return self.name #изменение rubric object 1 на недвижимость
