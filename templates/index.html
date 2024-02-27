@@ -8,6 +8,12 @@
     
     {% ulist '1' '2' '3' '4' '5' %}
     
+        
+    {% check_list_item 'apple' item_list 'Есть в списке!' 'Нет в списке!' %}
+    <br>
+    
+    {% current_datetime %}
+    
 {% for bb in bbs %}
 <div>
     <h2>
@@ -25,17 +31,20 @@
 {#    <p>{{ bb.content|bbcode|safe }}</p>#}
 
     <p>{{ bb.content|half_string }}</p>
+    <p>{{ bb.content|uppercase }}</p>
 
-{#    {% split_string  ', ' as result_array %}#}
-{#    {% for item in result_array %}#}
-{#        {{ item }}#}
-{#    {% endfor %}    #}
-    
+    {% split_string 'Выводит,полный,набор,отладочной,информации.' ', ' as result_array %}
+    <ul>
+    {% for item in result_array %}
+        <li>{{ item }}</li>
+    {% endfor %}    
+    </ul>
 
 
     {% autoescape on %}
     <p>Цена: {{ bb.price|cur }}</p>
     <p><strong>Цена:</strong> {{ bb.price|cur:'$' }}</p>
+    <p><strong>Цена:</strong> {{ bb.price|add_percent }}</p>
     {% endautoescape %}
 
     {% ifchanged bb.rubric.name %}
