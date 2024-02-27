@@ -8,10 +8,11 @@
     
     {% ulist '1' '2' '3' '4' '5' %}
     
-        
+    <h3><strong>Tag #3</strong></h3>
     {% check_list_item 'apple' item_list 'Есть в списке!' 'Нет в списке!' %}
     <br>
-    
+
+    <h3><strong>Tag #2</strong></h3>
     {% current_datetime %}
     
 {% for bb in bbs %}
@@ -30,20 +31,25 @@
     <p>{{ bb.content|truncatewords_html:2 }}</p>
 {#    <p>{{ bb.content|bbcode|safe }}</p>#}
 
+    <h3><strong>Filter #1</strong></h3>
     <p>{{ bb.content|half_string }}</p>
+
+    <h3><strong>Filter #3</strong></h3>
     <p>{{ bb.content|uppercase }}</p>
 
-    {% split_string 'Выводит,полный,набор,отладочной,информации.' ', ' as result_array %}
+    <h3><strong>Tag #1</strong></h3>
     <ul>
-    {% for item in result_array %}
-        <li>{{ item }}</li>
-    {% endfor %}    
+        {% split_string 'популярный,портал,для,проверки,текстов' ',' as items %}
+        {% for item in items %}
+            <li>{{ item }}</li>
+        {% endfor %}
     </ul>
-
-
+    
     {% autoescape on %}
     <p>Цена: {{ bb.price|cur }}</p>
     <p><strong>Цена:</strong> {{ bb.price|cur:'$' }}</p>
+
+    <h3><strong>Filter #2</strong></h3>
     <p><strong>Цена:</strong> {{ bb.price|add_percent }}</p>
     {% endautoescape %}
 

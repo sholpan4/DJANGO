@@ -42,32 +42,38 @@ def ulist(*args):
     return {'items': args}
 
 
+# filter #1
 @register.filter
 def half_string(value):
-    half_length = int(len(value) / 2)
-    return mark_safe(value[:half_length])
+    half_length = len(value) // 2
+    return value[:half_length]
 
 
+# filter #2
 @register.filter
 def add_percent(value):
     return f'{value}%'
 
 
+# filter #3
 @register.filter
 def uppercase(value):
     return value.upper()
 
 
+# tag #1
 @register.simple_tag
 def split_string(string, sep):
     return string.split(sep)
 
 
+# tag #2
 @register.simple_tag
 def current_datetime():
     return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 
+# tag #3
 @register.simple_tag
 def check_list_item(item, item_list, message_if_present, message_if_not_present):
     item_list = ['apple', 'strawberry', 'banana']
