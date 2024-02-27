@@ -55,18 +55,18 @@ class PGSRubric(models.Model):
         ]
 
 
-class PGSProject(models.Model):
-    name = models.CharField(max_length=40, verbose_name='Название')
-    platforms = ArrayField(base_field=ArrayField(
-        base_field=models.CharField(max_length=20)),
-        verbose_name='Используемые платформы')
-
-
-class PGSProject2(models.Model):
-    name = models.CharField(max_length=40, verbose_name='Название')
-    platforms = HStoreField(verbose_name='Используемые платформы')
-
-
-class PGSProject3(models.Model):
-    name = CICharField(max_length=40, verbose_name='Название')
-    data = JSONField()
+# class PGSProject(models.Model):
+#     name = models.CharField(max_length=40, verbose_name='Название')
+#     platforms = ArrayField(base_field=ArrayField(
+#         base_field=models.CharField(max_length=20)),
+#         verbose_name='Используемые платформы')
+#
+#
+# class PGSProject2(models.Model):
+#     name = models.CharField(max_length=40, verbose_name='Название')
+#     platforms = HStoreField(verbose_name='Используемые платформы')
+#
+#
+# class PGSProject3(models.Model):
+#     name = CICharField(max_length=40, verbose_name='Название')
+#     data = JSONField()

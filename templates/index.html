@@ -1,7 +1,12 @@
 {% extends "layout/basic.html" %}
 {% load bbcode_tags %}
+{% load filtertags %}
 
 {% block content %}
+    
+{#    {% lst ', ' '1' '2' '3' '4' '5' %}#}
+    
+    {% ulist '1' '2' '3' '4' '5' %}
     
 {% for bb in bbs %}
 <div>
@@ -17,6 +22,22 @@
             {% endif %}</a>
     </h2>
     <p>{{ bb.content|truncatewords_html:2 }}</p>
+{#    <p>{{ bb.content|bbcode|safe }}</p>#}
+
+    <p>{{ bb.content|half_string }}</p>
+
+{#    {% split_string  ', ' as result_array %}#}
+{#    {% for item in result_array %}#}
+{#        {{ item }}#}
+{#    {% endfor %}    #}
+    
+
+
+    {% autoescape on %}
+    <p>Цена: {{ bb.price|cur }}</p>
+    <p><strong>Цена:</strong> {{ bb.price|cur:'$' }}</p>
+    {% endautoescape %}
+
     {% ifchanged bb.rubric.name %}
     <p>
         <a href="{% url 'bboard:by_rubric' bb.rubric.pk %}">{{ bb.rubric.name }}</a>
