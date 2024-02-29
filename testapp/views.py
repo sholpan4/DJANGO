@@ -7,6 +7,8 @@ from django.urls import resolve
 from django.views.decorators.http import require_http_methods, require_GET
 
 from bboard.models import Rubric, Bb
+from .forms import ImgForm
+from .models import Img
 
 
 # def index(request):
@@ -48,3 +50,23 @@ def index(request):
     context = {'title': 'Test side', 'bbs': bbs, 'res': res}
 
     return render(request, 'test.html', context)
+
+
+def add(request):
+    if request.method == 'POST':
+        form = ImgForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('test:add')
+    else:
+        form = ImgForm()
+    context = {'form': form}
+    return render(request, 'testapp/add.html', context)
+
+
+def delete(request, pk):
+    img = Img.objects.get(pk=pk)
+    img.img.delete() #путь обекта удалить
+    img.delete() # сам объект удалить
+    return redirect('test:add')
+
