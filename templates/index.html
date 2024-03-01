@@ -1,6 +1,7 @@
 {% extends "layout/basic.html" %}
 {% load bbcode_tags %}
 {% load filtertags %}
+{% load thumbnail %}
 
 {% block content %}
     
@@ -21,6 +22,9 @@
                 Последнее Объявление
             {% endif %}</a>
     </h2>
+
+    <img src="{{ bb.picture|thumbnail_url:'default' }}" alt="">
+
     <p>{{ bb.content|truncatewords_html:2 }}</p>
 {#    <p>{{ bb.content|bbcode|safe }}</p>#}
 

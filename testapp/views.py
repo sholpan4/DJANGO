@@ -1,4 +1,6 @@
 import json
+import os
+from datetime import datetime
 
 from django.core.serializers.json import DjangoJSONEncoder
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
@@ -7,8 +9,12 @@ from django.urls import resolve
 from django.views.decorators.http import require_http_methods, require_GET
 
 from bboard.models import Rubric, Bb
+from samplesite.settings import BASE_DIR
 from .forms import ImgForm
 from .models import Img
+
+
+FILES_ROOT = os.path.join(BASE_DIR, 'files')
 
 
 # def index(request):
@@ -41,22 +47,46 @@ from .models import Img
 # @require_POST()
 # @require_safe() #get, head
 # @gzip_page()
+# def index(request):
+#     rubric = get_object_or_404(Rubric, name="Транспорт")
+#     bbs = get_list_or_404(Bb, rubric=rubric)
+#
+#     res = resolve('/2/')
+#
+#     context = {'title': 'Test side', 'bbs': bbs, 'res': res}
+#
+#     return render(request, 'test.html', context)
+
+
 def index(request):
-    rubric = get_object_or_404(Rubric, name="Транспорт")
-    bbs = get_list_or_404(Bb, rubric=rubric)
+    imgs = []
 
-    res = resolve('/2/')
+    for entry in os.scandir(FILES_ROOT):
+        imgs.append(os.path.basename(entry))
 
-    context = {'title': 'Test side', 'bbs': bbs, 'res': res}
+    context = {'title': 'Test side', 'imgs': imgs}
 
-    return render(request, 'test.html', context)
+    return render(request, 'testapp/index.html', context)
+
+
+def get(request, filename):
+    fn = os.path.join(FILES_ROOT, filename)
+    return FileResponse(open(fn, 'rb'), content_type='application/octet-stream')
 
 
 def add(request):
     if request.method == 'POST':
         form = ImgForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            uploaded_file = request.FILES['img']
+            # fn = '%s%s' % (datetime.now().timestamp(), os.path.splitext(uploaded_file.name)[1])
+            fn = f'{datetime.now().timestamp()}{os.path.splitext(uploaded_file.name)[1]}'
+            fn = os.path.join(FILES_ROOT, fn)
+
+            with open(fn, 'wb+') as destination:
+                for chunk in uploaded_file.chunks():  # chunks(chunk_size=1024 or None default)
+                    destination.write(chunk)
+
             return redirect('test:add')
     else:
         form = ImgForm()

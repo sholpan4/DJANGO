@@ -109,6 +109,8 @@ class Bb(models.Model):
     updated = models.DateTimeField(auto_now=True, db_index=True, verbose_name="Изменено")
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
+    picture = models.ImageField(verbose_name="Изображение", upload_to='bb/%Y/%m/%d/', blank=True, null=True)
+
     def __str__(self):
         return f'{self.title}'
 
