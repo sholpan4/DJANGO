@@ -96,3 +96,11 @@ class Img(models.Model):
     class Meta:
         verbose_name = 'Изображение'
         verbose_name_plural = 'Изображения'
+
+
+# class Comment(models.Model):
+#     class Meta:
+#         permissions = (
+#             ('hide_comment', 'Может скрывать комментарии')
+#         )
+#         default_permissions = ('change', 'delete')
