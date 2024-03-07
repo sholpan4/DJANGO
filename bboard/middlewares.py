@@ -63,7 +63,6 @@ class CustomContextMiddleware:
         response = self.get_response(request)
         context_data = response.context_data
         context_data.update(users_context_processor(request))
-        print('users_context_processor', context_data)
         context_data.update(group_context_processor(request))
-        print('group_context_processor', context_data)
+        print(context_data)
         return response
