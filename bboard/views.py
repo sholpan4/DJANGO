@@ -54,10 +54,10 @@ class BbIndexView(ListView):
     def get_queryset(self):
         return Bb.objects.all()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['rubrics'] = Rubric.objects.annotate(cnt=Count('bb')).filter(cnt__gt=0)
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['rubrics'] = Rubric.objects.annotate(cnt=Count('bb')).filter(cnt__gt=0)
+    #     return context
 
 
 # class BbIndexView(ArchiveIndexView):
@@ -99,7 +99,7 @@ class BbByRubricView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['rubrics'] = Rubric.objects.all()
+        # context['rubrics'] = Rubric.objects.all()
         context['current_rubric'] = Rubric.objects.get(
             pk=self.kwargs['rubric_id'])
         return context
@@ -110,7 +110,7 @@ class BbDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['rubrics'] = Rubric.objects.all()
+        # context['rubrics'] = Rubric.objects.all()
         return context
 
 
@@ -121,7 +121,7 @@ class BbCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['rubrics'] = Rubric.objects.all()
+        # context['rubrics'] = Rubric.objects.all()
         return context
 
 
@@ -132,7 +132,7 @@ class RubricCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['rubrics'] = Rubric.objects.all()
+        # context['rubrics'] = Rubric.objects.all()
         return context
 
 
@@ -143,7 +143,7 @@ class BbEditView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['rubric'] = Rubric.objects.all()
+        # context['rubric'] = Rubric.objects.all()
         return context
 
 
@@ -153,7 +153,7 @@ class BbDeleteView(DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['rubric'] = Rubric.objects.all()
+        # context['rubric'] = Rubric.objects.all()
         return context
 
 
