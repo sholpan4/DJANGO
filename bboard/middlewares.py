@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db.models import Count
 
 from bboard.models import Rubric
@@ -40,3 +41,29 @@ class RubricMiddleware:
 
 def rubrics(request):
     return {'rubrics': Rubric.objects.annotate(cnt=Count('bb')).filter(cnt__gt=0)}
+
+
+def users_context_processor(request):
+    all_users = User.objects.all()
+    return {'all_users': all_users}
+
+
+def group_context_processor(request):
+    user_groups = None
+    if request.user.is_authenticated:
+        user_groups = request.user.groups.all()
+        return {'user_groups': user_groups}
+
+
+class CustomContextMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        response = self.get_response(request)
+        context_data = response.context_data
+        context_data.update(users_context_processor(request))
+        print('users_context_processor')
+        context_data.update(group_context_processor(request))
+        print('group_context_processor')
+        return response

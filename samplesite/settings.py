@@ -60,6 +60,7 @@ MIDDLEWARE = [
     # 'bboard.middlewares.my_middleware',
     # 'bboard.middlewares.MyMiddleware',
     # 'bboard.middlewares.RubricMiddleware',
+    'bboard.middlewares.CustomContextMiddleware',
 ]
 
 ROOT_URLCONF = 'samplesite.urls'
