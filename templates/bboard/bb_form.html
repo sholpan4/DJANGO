@@ -1,9 +1,20 @@
 {% extends "layout/basic.html" %}
 {% load thumbnail %}
+{% load bootstrap4 %}
 
 {% block title %}Изменение объявления{% endblock %}
 
 {% block content %}
+    <ul class="messages">
+        {% for message in messages %}
+{#            <li {% if massage.tags %} class="{{ message.tags }}{% endif %}">#}
+{#                {{ message }}#}
+{#            </li>#}
+            {% bootstrap_alert content="Success!" alert_type="success" %}
+            <h2>{{ message }}</h2>
+        {% endfor %}
+    </ul>
+    
 
 <h2>Изменение объявления</h2>
 

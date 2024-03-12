@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
+# from django.contrib import messages
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -244,3 +246,13 @@ THUMBNAIL_DEFAULT_OPTIONS = {
 }
 
 THUMBNAIL_PRESERVE_EXTENSION = True # ('png',)
+
+# SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+# SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+# SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+# SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+# SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+
+# MESSAGE_LEVEL = 20
+# MESSAGE_TAGS = {}
+# MESSAGE_LEVEL = messages.DEBUG

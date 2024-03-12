@@ -5,7 +5,12 @@
 
 {% block content %}
     
+    {% for message in messages %}
+        <h2>{{ message }}</h2>
+    {% endfor %}
+    
     {% bootstrap_messages %}
+    {% bootstrap_alert content="Success!" alert_type="success" %}
     {% bootstrap_alert content="Correct it-danger!" alert_type="danger" %}
     {% bootstrap_alert content="Correct it-warning!" alert_type="warning" %}
 
