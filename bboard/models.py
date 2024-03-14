@@ -5,6 +5,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from precise_bbcode.fields import BBCodeTextField
 
+from bboard.signals import add_bb
+
 is_all_posts_passive = True
 
 
@@ -136,6 +138,10 @@ class Bb(models.Model):
         return self.title
 
     # title_and_price.short_description = 'Название и цена'
+
+    def save(self, *args, **kwargs):
+        add_bb.send(Bb, instance=self)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = 'Объявления'

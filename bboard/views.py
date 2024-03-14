@@ -134,10 +134,10 @@ class BbByRubricView(ListView):
 class BbDetailView(DetailView):
     model = Bb
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # context['rubrics'] = Rubric.objects.all()
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['rubrics'] = Rubric.objects.all()
+    #     return context
 
 
 class BbCreateView(CreateView):
@@ -148,6 +148,8 @@ class BbCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # context['rubrics'] = Rubric.objects.all()
+
+        context['message'] = ['You are cool']
         return context
 
 
