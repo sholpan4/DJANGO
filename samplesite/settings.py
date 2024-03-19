@@ -59,12 +59,19 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+
+    # 'django.middleware.cache.UpdateCacheMiddleware',  # for cache
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+
+    # 'django.middleware.cache.FetchFromCacheMiddleware',  # for cache
+
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
     # 'bboard.middlewares.my_middleware',
     # 'bboard.middlewares.MyMiddleware',
     # 'bboard.middlewares.RubricMiddleware',
@@ -289,3 +296,37 @@ ADMINS = [
 # MANAGERS = [
 #     ('manager', 'manager@samplesite.com')
 # ]
+
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+#         'LOCATION': 'cache1',
+#         # 'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+#         # 'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+#         # 'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+#         # 'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
+#         'TIMEOUT': 300,  # SECONDS
+#         'OPTIONS': {
+#             'MAX_ENTRIES': 300,
+#             'CULL_FREQUENCY': 3,
+#         }
+#     },
+#     'special': {
+#         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+#         'LOCATION': 'cache2',
+#     }
+# }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'cache1',
+        'TIMEOUT': 120,
+        'OPTIONS': {
+            'MAX_ENTRIES': 200,
+        }
+    }
+}
+
+# CACHE_MIDDLEWARE_ALIAS = 'default'
+# CACHE_MIDDLEWARE_SECONDS = 600  # SECONDS
