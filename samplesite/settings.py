@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'django_cleanup',
     'easy_thumbnails',
+    # 'django_redis'
 
     'bboard',
     'testapp',
