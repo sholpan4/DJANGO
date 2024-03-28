@@ -123,6 +123,5 @@ class BbAdmin(admin.ModelAdmin):
     discount.short_description = 'Уменьшить цену вдвое'
 
 
-
 # admin.site.register(Bb, BbAdmin)
 # admin.site.register(Rubric)

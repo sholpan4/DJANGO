@@ -5,7 +5,7 @@ from os.path import splitext
 from django.contrib.postgres.fields import DateTimeRangeField, ArrayField, HStoreField, CICharField
 from django.contrib.postgres.indexes import GistIndex
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 from django.db.models import JSONField
 
 
@@ -15,6 +15,22 @@ class AdvUser(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+# class Profile(models.Model):
+#     phone = models.CharField(max_length=20)
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#
+#
+# class AdvUser(AbstractUser):
+#     phone = models.CharField(max_length=20)
+
+
+# class AdvUser(User):
+#     phone = models.CharField(max_length=20)
+#
+#     class Meta:
+#         proxy = True
 
 
 class Spare(models.Model):
