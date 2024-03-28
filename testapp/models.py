@@ -2,6 +2,7 @@ import os
 from datetime import datetime
 from os.path import splitext
 
+from django.conf import settings
 from django.contrib.postgres.fields import DateTimeRangeField, ArrayField, HStoreField, CICharField
 from django.contrib.postgres.indexes import GistIndex
 from django.db import models
@@ -11,7 +12,7 @@ from django.db.models import JSONField
 
 class AdvUser(models.Model):
     is_activated = models.BooleanField(default=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.username
@@ -120,3 +121,15 @@ class Img(models.Model):
 #             ('hide_comment', 'Может скрывать комментарии')
 #         )
 #         default_permissions = ('change', 'delete')
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    date_of_birth = models.DateField()
+    phone = models.CharField(max_length=20)
+
+
+class CustomUser(AbstractUser):
+    date_of_birth = models.DateField()
+    phone = models.CharField(max_length=20)
+

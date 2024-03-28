@@ -117,6 +117,7 @@ WSGI_APPLICATION = 'samplesite.wsgi.application'
 #     }
 # }
 
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -134,29 +135,29 @@ DATABASES = {
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-        'OPTIONS': {
-            'min_length': 8,
-        },
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-    {
-        'NAME': 'samplesite.validators.NoForbiddenCharsValidator',
-        'OPTIONS': {'forbidden_chars': (' ', ',', '.', ':', ';')},
-    },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    #     'OPTIONS': {
+    #         'min_length': 8,
+    #     },
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    # },
+    # {
+    #     'NAME': 'samplesite.validators.NoForbiddenCharsValidator',
+    #     'OPTIONS': {'forbidden_chars': (' ', ',', '.', ':', ';')},
+    # },
 ]
 
-AUTH_USER_MODEL = "auth.User"
-# AUTH_USER_MODEL = "testapp.AdvUser"
+# AUTH_USER_MODEL = "auth.User"
+AUTH_USER_MODEL = "testapp.CustomUser"
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
