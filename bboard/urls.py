@@ -1,7 +1,7 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path, re_path
 from .views import (BbIndexView, BbByRubricView, BbCreateView, RubricCreateView, BbDetailView, BbEditView, BbDeleteView,
-                    BbRedirectView, BbMonthView, edit, add_save, rubrics, bbs, search)
+                    BbRedirectView, BbMonthView, edit, add_save, rubrics, bbs, search, index)
 
 app_name = 'bboard'
 

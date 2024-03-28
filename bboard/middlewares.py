@@ -61,8 +61,13 @@ class CustomContextMiddleware:
 
     def __call__(self, request):
         response = self.get_response(request)
-        context_data = response.context_data
-        context_data.update(users_context_processor(request))
-        context_data.update(group_context_processor(request))
+        context_data = response.context_data or {}
+        users_context = users_context_processor(request)
+        if users_context:
+            context_data.update(users_context)
+        group_context = group_context_processor(request)
+        if group_context:
+            context_data.update(group_context)
+        response.context_data = context_data
         print(context_data)
         return response
